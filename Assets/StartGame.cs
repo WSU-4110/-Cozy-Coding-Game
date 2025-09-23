@@ -9,4 +9,3 @@ public class StartGame : MonoBehaviour
         SceneManager.LoadScene("Game Scene1");
     }
 }
-
