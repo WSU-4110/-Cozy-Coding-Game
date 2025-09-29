@@ -1,13 +1,14 @@
 using UnityEngine;
-using TMPro;        // For TextMeshPro
-using UnityEngine.UI; // For Button
+using TMPro;
+using UnityEngine.UI;
 
 public class GotIt : MonoBehaviour
-
 {
     public TextMeshProUGUI buttonText;
     public TextMeshProUGUI speechText;
     public Button ButtonGotIt;
+    public TMP_InputField codeInput;  //drag your input field here in Inspector
+    public Button RunButton;          //drag your RUN button here in Inspector
 
     private string[] lines =
     {
@@ -19,11 +20,14 @@ public class GotIt : MonoBehaviour
 
     void Start()
     {
-        // Start with the first line
+        //start with the first line
         speechText.text = lines[index];
 
-        // Hook up button click
+        //hook up button click
         ButtonGotIt.onClick.AddListener(NextLine);
+
+        //hook up RUN button
+        RunButton.onClick.AddListener(CheckCode);
     }
 
     void NextLine()
@@ -33,11 +37,28 @@ public class GotIt : MonoBehaviour
             index++;
             speechText.text = lines[index];
 
-            // Hide button on second line
+            //hide button on second line
             if (index == 1)
             {
                 ButtonGotIt.gameObject.SetActive(false);
             }
+        }
+    }
+
+    void CheckCode()
+    {
+        string playerCode = codeInput.text.Trim();
+
+        //expected correct Python line
+        string correctAnswer = "print(\"Hello World\")";
+
+        if (playerCode == correctAnswer)
+        {
+            speechText.text = "Great job!! You got it!";
+        }
+        else
+        {
+            speechText.text = "Hmm, try again!";
         }
     }
 }
