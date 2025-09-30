@@ -2355,6 +2355,8 @@ MonoBehaviour:
   buttonText: {fileID: 1237578027}
   speechText: {fileID: 270712624}
   ButtonGotIt: {fileID: 1246204972}
+  codeInput: {fileID: 249361902}
+  RunButton: {fileID: 1858546411}
 --- !u!4 &1664337462
 Transform:
   m_ObjectHideFlags: 0
