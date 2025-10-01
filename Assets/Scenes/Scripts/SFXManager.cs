@@ -2,23 +2,35 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    public static SFXManager instance; // Singleton so we can call it easily
+    public static SFXManager Instance;   // Singleton instance
+
     private AudioSource audioSource;
 
     private void Awake()
     {
-        if (instance == null)
+        // Singleton pattern
+        if (Instance == null)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            audioSource = gameObject.AddComponent<AudioSource>();
+            Instance = this;
+            DontDestroyOnLoad(gameObject);  // persists across scenes
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
+
+        // Ensure we have an AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        audioSource.playOnAwake = false;
     }
 
+    // Play a one-shot sound effect
     public void PlaySound(AudioClip clip)
     {
         if (clip != null)
@@ -27,6 +39,7 @@ public class SFXManager : MonoBehaviour
         }
     }
 
+    // Adjust SFX volume (used by SettingsManager)
     public void SetVolume(float value)
     {
         audioSource.volume = value;

@@ -66,11 +66,12 @@ public class SettingsManager : MonoBehaviour
 
     private void ApplySfxVolume(float value)
     {
-        if (SFXManager.instance != null)
+        if (SFXManager.Instance != null)
         {
-            SFXManager.instance.SetVolume(value);
+            SFXManager.Instance.SetVolume(value);
         }
     }
+
 
 
     private void ApplyMusicVolume(float value)
