@@ -44,7 +44,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             //load next scene when button clicked after last line
-            SceneManager.LoadScene("Home"); 
+            SceneManager.LoadScene("TutorialScreen"); 
         }
     }
 }
