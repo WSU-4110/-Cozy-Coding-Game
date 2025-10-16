@@ -15,11 +15,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Screens/Game Scene1.unity
     guid: 4365576700a46c04da317754c0258315
   - enabled: 1
-    path: Assets/Home.unity
-    guid: dbf07d35f64affd419342766f8bcb63b
-  - enabled: 1
     path: Assets/Scenes/Screens/Map.unity
     guid: e443ba6f13e30c54d9553830a72d145d
+  - enabled: 1
+    path: Assets/Scenes/Screens/Home.unity
+    guid: b2abca1b3d50e7945977f53643e2a640
   - enabled: 1
     path: Assets/Scenes/Screens/Syntax Level.unity
     guid: 063d581d5e82c294ea381899aa82d4bd
