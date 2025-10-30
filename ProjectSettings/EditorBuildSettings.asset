@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Screens/Map.unity
     guid: e443ba6f13e30c54d9553830a72d145d
   - enabled: 1
-    path: Assets/Scenes/Screens/Syntax Level.unity
+    path: Assets/Scenes/Screens/Syntax Tutorial Level.unity
     guid: 063d581d5e82c294ea381899aa82d4bd
   - enabled: 1
     path: Assets/Scenes/Screens/TutorialScreen.unity
