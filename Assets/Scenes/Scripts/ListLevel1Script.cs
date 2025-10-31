@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class ListLevel1Script : MonoBehaviour
 {
+
+    public static ListLevel1Script Instance {  get; private set; }
+
+
     public TMP_InputField codeInput; 
     public TextMeshProUGUI ListLevel1Instruct; //Wolf Text Bubble
     public TextMeshProUGUI ListLevel1Output; //Output Text Box
@@ -41,9 +45,24 @@ public class ListLevel1Script : MonoBehaviour
         "['pear', 'banana', 'cherry']",
         "['pear', 'plum', 'cherry']"
     };
+
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+    }
+    
     void Start()
     {
-        ListLevel1Instruct.text = partInstruct[levelPart]; //first 
+       ListLevel1Instruct.text = partInstruct[levelPart]; //first 
     }
 
 
