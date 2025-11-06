@@ -7,13 +7,23 @@ using UnityEngine.SceneManagement;
 public class Tuples : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TMP_Text instructions;
-    public TMP_Text feedback;
+    public TextMeshProUGUI instructions;
+    public TextMeshProUGUI feedback;
+    public Button continueButton;
     public Button nextRoundButton;
-    public Button homeButton; // Button to go back to home
+    public Button homeButton;
 
-    [Header("Apple Buttons Parent")]
-    public Transform appleParent; // Parent containing the 4 apple buttons
+    [Header("Apple Buttons")]
+    public List<Button> appleButtons;
+
+    private int introStep = 0;
+
+    private string[] introMessages = new string[]
+    {
+        "A tuple in Python is an ordered collection of values that cannot be changed.",
+        "Example: (4, 2, 7, 1)",
+        "In this game, you'll practice reading tuples by choosing the smallest and largest values!"
+    };
 
     private List<int[]> rounds = new List<int[]>()
     {
@@ -28,20 +38,41 @@ public class Tuples : MonoBehaviour
     private int? selectedSmallest = null;
     private int? selectedLargest = null;
 
-    private List<Button> appleButtons = new List<Button>();
-
     void Start()
     {
-        // Cache the apple buttons
-        appleButtons.Clear();
-        foreach (Transform child in appleParent)
-        {
-            appleButtons.Add(child.GetComponent<Button>());
-        }
+        // Hide apples until intro is finished
+        foreach (var apple in appleButtons)
+            apple.gameObject.SetActive(false);
 
+        feedback.text = "";
         nextRoundButton.gameObject.SetActive(false);
         homeButton.gameObject.SetActive(false);
-        feedback.text = "";
+
+        continueButton.onClick.AddListener(NextIntroStep);
+        instructions.text = introMessages[introStep];
+    }
+
+    void NextIntroStep()
+    {
+        introStep++;
+
+        if (introStep < introMessages.Length)
+        {
+            instructions.text = introMessages[introStep];
+        }
+        else
+        {
+            StartGame();
+        }
+    }
+
+    void StartGame()
+    {
+        continueButton.gameObject.SetActive(false);
+
+        foreach (var apple in appleButtons)
+            apple.gameObject.SetActive(true);
+
         SetupRound();
     }
 
@@ -52,9 +83,9 @@ public class Tuples : MonoBehaviour
         smallestValue = Mathf.Min(tuple);
         largestValue = Mathf.Max(tuple);
 
-        instructions.text = "Pick the smallest and largest number!";
+        instructions.text = "Pick the smallest then the largest number.";
+        feedback.text = "";
 
-        // Assign numbers to the existing buttons and reset colors
         for (int i = 0; i < appleButtons.Count; i++)
         {
             Button btn = appleButtons[i];
@@ -62,7 +93,7 @@ public class Tuples : MonoBehaviour
             btnText.text = tuple[i].ToString();
 
             btn.interactable = true;
-            btn.GetComponent<Image>().color = Color.white; // reset color
+            btn.GetComponent<Image>().color = Color.white;
 
             int capturedNum = tuple[i];
             btn.onClick.RemoveAllListeners();
@@ -71,7 +102,7 @@ public class Tuples : MonoBehaviour
 
         selectedSmallest = null;
         selectedLargest = null;
-        feedback.text = "";
+
         nextRoundButton.gameObject.SetActive(false);
         homeButton.gameObject.SetActive(false);
     }
@@ -82,15 +113,15 @@ public class Tuples : MonoBehaviour
         {
             selectedSmallest = number;
             feedback.text = $"Smallest selected: {number}";
+            btn.GetComponent<Image>().color = Color.green;
             btn.interactable = false;
-            btn.GetComponent<Image>().color = Color.green; // highlight smallest
         }
         else if (selectedLargest == null)
         {
             selectedLargest = number;
             feedback.text = $"Largest selected: {number}";
+            btn.GetComponent<Image>().color = Color.red;
             btn.interactable = false;
-            btn.GetComponent<Image>().color = Color.red; // highlight largest
 
             CheckAnswer();
         }
@@ -100,39 +131,48 @@ public class Tuples : MonoBehaviour
     {
         if (selectedSmallest == smallestValue && selectedLargest == largestValue)
         {
-            feedback.text = "Correct! Well done!";
-        }
-        else
-        {
-            feedback.text = $"Incorrect. Smallest: {smallestValue}, Largest: {largestValue}";
-        }
+            feedback.text = "Correct!";
 
-        // If last round, show home button
-        if (currentRound == rounds.Count - 1)
-        {
-            instructions.text = "Great Job on mastering tuples!";
-            homeButton.gameObject.SetActive(true);
-            nextRoundButton.gameObject.SetActive(false);
+            if (currentRound == rounds.Count - 1)
+            {
+                instructions.text = "Great job mastering tuples!";
+                homeButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                nextRoundButton.gameObject.SetActive(true);
+            }
         }
         else
         {
-            nextRoundButton.gameObject.SetActive(true);
+            feedback.text = "Try again!";
+            ResetForRetry();
+        }
+    }
+
+    void ResetForRetry()
+    {
+        selectedSmallest = null;
+        selectedLargest = null;
+
+        foreach (var btn in appleButtons)
+        {
+            btn.interactable = true;
+            btn.GetComponent<Image>().color = Color.white;
         }
     }
 
     public void NextRound()
     {
         currentRound++;
-        if (currentRound < rounds.Count)
-        {
-            SetupRound();
-        }
+        SetupRound();
     }
 
     public void GoHome()
     {
-        SceneManager.LoadScene("HomeScene"); // Replace with your actual home scene name
+        SceneManager.LoadScene("HomeScene");
     }
 }
+
 
 
