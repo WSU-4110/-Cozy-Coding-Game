@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class GotIt : MonoBehaviour
 {
+    public RewardPopup rewardPopup; // drag your RewardPopup panel here in Inspector
+    public string rewardName = "House Plant"; // example reward
+    public Sprite rewardSprite; // drag the reward image here
+
     public TextMeshProUGUI buttonText;
     public TextMeshProUGUI speechText;
     public Button ButtonGotIt;
@@ -48,13 +52,17 @@ public class GotIt : MonoBehaviour
     void CheckCode()
     {
         string playerCode = codeInput.text.Trim();
-
-        //expected correct Python line
         string correctAnswer = "print(\"Hello World\")";
 
         if (playerCode == correctAnswer)
         {
             speechText.text = "Great job!! You got it!";
+
+            // Show the reward popup
+            if (rewardPopup != null)
+            {
+                rewardPopup.Show(rewardName, rewardSprite);
+            }
         }
         else
         {
