@@ -474,7 +474,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8591533231565066105, guid: 6130f9a902190034da96e596a4f37f8e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6130f9a902190034da96e596a4f37f8e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -508,8 +508,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -156.99994, y: -309}
-  m_SizeDelta: {x: 262.8973, y: 363.039}
+  m_AnchoredPosition: {x: -118, y: -260}
+  m_SizeDelta: {x: 338.0487, y: 446.3887}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &451366035
 GameObject:
@@ -3078,7 +3078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GotIt
   rewardPopup: {fileID: 451366036}
   rewardName: House Plant
-  rewardSprite: {fileID: 8591533231565066105, guid: 6130f9a902190034da96e596a4f37f8e, type: 3}
+  rewardSprite: {fileID: 21300000, guid: 6130f9a902190034da96e596a4f37f8e, type: 3}
   buttonText: {fileID: 1237578027}
   speechText: {fileID: 270712624}
   ButtonGotIt: {fileID: 1246204972}
