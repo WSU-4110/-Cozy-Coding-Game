@@ -27,9 +27,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Screens/TutorialScreen.unity
     guid: f7966c5cd3d08a24d9919909bc1d010a
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/Screens/Level 2.unity
     guid: 4004176f9992d414ba355740a24f082c
   - enabled: 1
+=======
+>>>>>>> 6ab7d1a2a1f0f5b4af5e426f70ee92ff02ab691e
     path: Assets/Scenes/Screens/ListLevelTutorial.unity
     guid: 5bc9ffa7dd24cf5479f7225a290112ed
   - enabled: 1
