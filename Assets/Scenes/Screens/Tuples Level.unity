@@ -153,7 +153,11 @@ MonoBehaviour:
   continueButton: {fileID: 595895484}
   nextRoundButton: {fileID: 239816678}
   homeButton: {fileID: 521425931}
-  appleButtons: []
+  appleButtons:
+  - {fileID: 1971263080}
+  - {fileID: 758566852}
+  - {fileID: 1902697292}
+  - {fileID: 1047568498}
 --- !u!4 &205711247
 Transform:
   m_ObjectHideFlags: 0
@@ -1166,11 +1170,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1563009043}
   - {fileID: 1136702621}
   - {fileID: 205711247}
   - {fileID: 395403876}
   - {fileID: 677546309}
-  - {fileID: 1563009043}
   - {fileID: 673648003}
   - {fileID: 355385130}
   - {fileID: 239816675}
