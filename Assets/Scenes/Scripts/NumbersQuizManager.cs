@@ -72,7 +72,8 @@ public class NumbersQuizManager : MonoBehaviour
         }
         
         // 3. Start the quiz by displaying the first question
-        if (allQuestions.Count > 0) // Changed to .Count for array, though .Length works too
+        // FIX: Replaced .Count with .Length for array size check
+        if (allQuestions.Length > 0) 
         {
             DisplayQuestion(currentQuestionIndex);
         }
@@ -182,6 +183,7 @@ public class NumbersQuizManager : MonoBehaviour
         }
         
         // Check if the data is consistent with the available UI
+        // FIX: Replaced .Count with .Length for array size check
         if (currentQ.AnswerChoices.Length > allAnswerButtons.Count)
         {
             Debug.LogError($"Question {index} has {currentQ.AnswerChoices.Length} choices, but only {allAnswerButtons.Count} buttons are available!");
