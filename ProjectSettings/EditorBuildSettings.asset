@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Screens/TutorialScreen.unity
     guid: f7966c5cd3d08a24d9919909bc1d010a
   - enabled: 1
+    path: Assets/Scenes/Screens/CastingLevel.unity
+    guid: 28615661fa908c64983096ae3cc84bf6
+  - enabled: 1
     path: Assets/Scenes/Screens/ListLevelTutorial.unity
     guid: 5bc9ffa7dd24cf5479f7225a290112ed
   - enabled: 1
