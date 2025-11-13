@@ -13,7 +13,7 @@ public class ListLevelPart2 : MonoBehaviour
     public Button Button4;
     public TextMeshProUGUI B1text;
     public TextMeshProUGUI B2text;
-    public TextMeshProUGUI B3text;
+    public TextMeshProUGUI B3text; 
     public TextMeshProUGUI B4text;
 
 
@@ -32,21 +32,21 @@ public class ListLevelPart2 : MonoBehaviour
         "What is a correct syntax for looping through the items of a list?",
         "What is a correct syntax for looping through the items of a list?",
         "Consider the code: fruits = ['apple', 'banana', 'cherry']\r\nnewlist = [x for x in fruits if x == 'banana'], What will be the value of newlist?",
-        "Consider the code: fruits = ['apple', 'banana', 'cherry']\r\nnewlist = ['apple' for x in fruits], What will be the value of newlist?"
+        "Consider the code: fruits = ['apple', 'banana  ', 'cherry']\r\nnewlist = ['apple' for x in fruits], What will be the value of newlist?"
     };
 
     private string[,] answers = new string[6, 4]
     {
-        {"push()","pop()","delete()","remove()" },
+        {"pop()","push()","delete()","remove()" },
         {"fruits.delete('banana')","fruits.remove('banana')","remove.fruits('banana')","fruits.push('banana')" },
         {"for x in ['apple', 'banana', 'cherry']\r\n  print(x)","for x in ['apple', 'banana', 'cherry']:\r\n  print(x)","foreach x in ['apple', 'banana', 'cherry']\r\n  print(x)","" },
         {"print(x) for x in ['apple', 'banana', 'cherry']","[print(x) for x in ['apple', 'banana', 'cherry']]","for x in ['apple', 'banana', 'cherry'] print(x)","" },
-        {"['apple', 'cherry']","['banana']","True","" },
+        {"['apple', 'cherry']","True","\"['banana']\"", "" },
         {"['apple']","['apple', 'apple', 'apple']","True","" }
 
     };
 
-    private int[] rightAnswer = new int[6] { 1, 1, 1, 1, 1, 1 };
+    private int[] rightAnswer = new int[6] { 0, 1, 1, 1, 2, 1 };
 
     void Start()
     {
@@ -89,7 +89,7 @@ public class ListLevelPart2 : MonoBehaviour
             currentQuestions++;
 
             if(currentQuestions < question.Length)
-            {
+            {  
                 ShowQuestion(currentQuestions);
             }
             else
