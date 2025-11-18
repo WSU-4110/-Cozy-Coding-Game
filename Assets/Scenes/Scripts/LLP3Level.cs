@@ -56,7 +56,7 @@ public class LLP3Level : MonoBehaviour
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Start()
+    private void Start()
     {
         FeedbackText.text = "Welcome to ListLevel Part 3!";
         QuestionText.text = "Question instructions will appear here...";
@@ -71,7 +71,7 @@ public class LLP3Level : MonoBehaviour
 
     }
 
-    public void displayQuestion()
+    private void displayQuestion()
     {
         QuestionText.text = partInstruct[levelPart];
         Button1Text.text = validAnswers[levelPart, 0];
@@ -120,11 +120,7 @@ public class LLP3Level : MonoBehaviour
     public void RestartLvl()
     {
         levelPart = 0;
-        FeedbackText.text = "Welcome to ListLevel Part 3!";
-        QuestionText.text = "Question instructions will appear here...";
-        Button1.gameObject.SetActive(false);
-        Button2.gameObject.SetActive(false);
-        Button3.gameObject.SetActive(false);
+        StartGame();
     }
 
 
