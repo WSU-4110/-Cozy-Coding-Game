@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class BooleansExplainedGotIt : MonoBehaviour
 {
-    public void LoadMiniGame()
+    public void GoToMiniGame()
     {
         SceneManager.LoadScene("Booleans and Operators Mini Game");
     }
 }
+
 
