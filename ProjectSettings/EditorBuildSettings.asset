@@ -26,6 +26,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Screens/TutorialScreen.unity
     guid: f7966c5cd3d08a24d9919909bc1d010a
+  - enabled: 1
+    path: Assets/Scenes/Screens/Booleans and Operators Explained.unity
+    guid: 0b3bed414a9084d239814b1552bf8fcf
+  - enabled: 1
+    path: Assets/Scenes/Screens/Booleans and Operators Mini Game.unity
+    guid: a47347b86a4e249e383ff4da6a9ea3f9
+  - enabled: 1
+    path: Assets/Scenes/Screens/Sets explained.unity
+    guid: 71a3d0cee09f14da3ba16d76126523fa
+  - enabled: 1
+    path: Assets/Scenes/Screens/Sets.unity
+    guid: afb7102664689452ba213a323a8251f8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
