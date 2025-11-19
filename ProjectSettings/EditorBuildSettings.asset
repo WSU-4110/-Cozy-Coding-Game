@@ -8,9 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Screens/Main Menu.unity
     guid: 4d982239d09890e4bbd4206fdea80f33
-<<<<<<< HEAD
-  m_configObjects: {}
-=======
   - enabled: 1
     path: Assets/Scenes/Screens/Game Scene1.unity
     guid: 4365576700a46c04da317754c0258315
@@ -40,5 +37,5 @@ EditorBuildSettings:
     guid: afb7102664689452ba213a323a8251f8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
->>>>>>> sets
   m_UseUCBPForAssetBundles: 0
+
