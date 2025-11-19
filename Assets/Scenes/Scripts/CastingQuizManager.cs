@@ -50,6 +50,13 @@ public class CastingQuizManager : MonoBehaviour
 
     private List<Button> allAnswerButtons;
 
+    [Header("Reward UI")]
+    public GameObject rewardImage;      // The reward image object (Image)
+    public Button backToMapButton;      // Button to go back to Map
+    public string mapSceneName = "Map"; // Scene name for the Map
+
+
+
     // --- Configuration ---
     [Header("Configuration")]
     public float feedbackDisplayTime = 1.5f; 
@@ -64,6 +71,11 @@ public class CastingQuizManager : MonoBehaviour
 
         // Hide feedback text at the start
         feedbackText.gameObject.SetActive(false);
+        if (rewardImage != null)
+            rewardImage.SetActive(false);
+
+        if (backToMapButton != null)
+            backToMapButton.gameObject.SetActive(false);
 
         // Assign the click function to each button dynamically.
         // This ensures the correct answer text is passed to CheckAnswer().
@@ -139,8 +151,24 @@ public class CastingQuizManager : MonoBehaviour
         {
             // Quiz finished - NEXT LEVEL LOGIC HERE
             questionText.text = "LEVEL COMPLETE! You're a casting expert!";
-            Debug.Log("Casting Quiz finished! Next level logic goes here.");
-            DisableButtons(); 
+            feedbackText.gameObject.SetActive(false);
+
+            // Show reward and button
+            if (rewardImage != null)
+                rewardImage.SetActive(true);
+
+            if (backToMapButton != null)
+            {
+                backToMapButton.gameObject.SetActive(true);
+                backToMapButton.onClick.RemoveAllListeners();
+                backToMapButton.onClick.AddListener(() =>
+                {
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Map");
+                });
+            }
+
+            // Disable quiz buttons
+            DisableButtons();
         }
     }
     

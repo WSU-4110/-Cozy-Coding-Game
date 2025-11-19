@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d4026065c8e88d34da4cad4c0269f10f
+guid: db4fa99ffcab14142be8739f287ddbe9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7635013726552783190
-    second: home_0
+      213: 8597265555138175851
+    second: Lavender_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: home_0
+      name: Lavender_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 253
-        height: 237
+        x: 71
+        y: 57
+        width: 882
+        height: 826
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 659f862488405f960800000000000000
-      internalID: 7635013726552783190
+      spriteID: b6366bdd87f9f4770800000000000000
+      internalID: 8597265555138175851
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      home_0: 7635013726552783190
+      Lavender_0: 8597265555138175851
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
