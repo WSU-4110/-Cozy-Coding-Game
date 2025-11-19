@@ -132,16 +132,48 @@ public class WolfDialogue : MonoBehaviour
             return;
         }
 
-        string cleanUser = userInput.Replace(" ", "").Replace("\n", "").Replace("\r", "");
+        // Clean user input
+        string cleanUser = userInput
+            .ToLower()
+            .Replace(" ", "")
+            .Replace("\"", "")
+            .Replace("'", "")
+            .Replace("(", "")
+            .Replace(")", "")
+            .Replace("\n", "")
+            .Replace("\r", "");
+
+        // Clean expected answer
+        string cleanExpected = exampleOutputs[expectedIndex]
+            .ToLower()
+            .Replace(" ", "");
+
         bool correct = false;
 
-        foreach (string possible in expectedAnswers[expectedIndex])
+        // 1. Check if user typed something that ends in or contains the expected printed output
+        if (cleanUser.Contains(cleanExpected))
+            correct = true;
+
+        // 2. Also accept actual print() syntax from expectedAnswers list
+        if (!correct)
         {
-            string cleanPossible = possible.Replace(" ", "").Replace("\n", "").Replace("\r", "");
-            if (cleanUser == cleanPossible)
+            foreach (string possible in expectedAnswers[expectedIndex])
             {
-                correct = true;
-                break;
+                string cleanPossible = possible
+                    .ToLower()
+                    .Replace(" ", "")
+                    .Replace("\"", "")
+                    .Replace("'", "")
+                    .Replace("(", "")
+                    .Replace(")", "")
+                    .Replace("\n", "")
+                    .Replace("\r", "");
+
+                if (cleanUser == cleanPossible)
+                {
+                    correct = true;
+                    break;
+                }
             }
         }
 
@@ -153,7 +185,6 @@ public class WolfDialogue : MonoBehaviour
             inputField.gameObject.SetActive(false);
             nextButton.gameObject.SetActive(true);
 
-            // Show example "printed" output
             if (outputText != null)
             {
                 outputText.text = "Output:\n> " + exampleOutputs[expectedIndex];
@@ -165,6 +196,7 @@ public class WolfDialogue : MonoBehaviour
             if (outputText != null) outputText.text = "";
         }
     }
+
 
     void StartExercises()
     {

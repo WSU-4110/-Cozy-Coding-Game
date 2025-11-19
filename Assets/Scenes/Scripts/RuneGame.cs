@@ -12,24 +12,31 @@ public class RuneGame : MonoBehaviour
     private string element = "";
     private string creature = "";
 
-    private string correctElement = "fire";
-    private string correctCreature = "wolf";
+    private (string element, string creature)[] validRunes =
+    {
+        ("fire", "phoenix"),
+        ("ice", "wolf"),
+        ("wind", "serpent")
+    };
 
     public void ChooseElement(string e)
     {
-        element = e;
+        element = e.ToLower();
         UpdateRunePreview();
     }
 
     public void ChooseCreature(string c)
     {
-        creature = c;
+        creature = c.ToLower();
         UpdateRunePreview();
     }
 
     private void UpdateRunePreview()
     {
-        runeText.text = $"The power of {(string.IsNullOrEmpty(element) ? "{element}" : element)} lies within {(string.IsNullOrEmpty(creature) ? "{creature}" : creature)}.";
+        string eText = string.IsNullOrEmpty(element) ? "___" : element;
+        string cText = string.IsNullOrEmpty(creature) ? "___" : creature;
+
+        runeText.text = $"The power of {eText} lies within {cText}.";
     }
 
     public void Btn_Invoke()
@@ -44,7 +51,17 @@ public class RuneGame : MonoBehaviour
         string result = $"The power of {element} lies within {creature}.";
         outputText.text = result;
 
-        if (element == correctElement && creature == correctCreature)
+        bool isCorrect = false;
+        foreach (var combo in validRunes)
+        {
+            if (element == combo.element && creature == combo.creature)
+            {
+                isCorrect = true;
+                break;
+            }
+        }
+
+        if (isCorrect)
         {
             feedback.text = "The rune glows brightly — you restored it!";
         }

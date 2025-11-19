@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IfElseGame : MonoBehaviour
+public class IfElse : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI WolfText;
@@ -16,19 +16,30 @@ public class IfElseGame : MonoBehaviour
 
     public Button NextButton;
 
+    // Tracks which part of the lesson we are in
+    [SerializeField, HideInInspector]
     private int stage = 0;
+
     private bool waitingForChoice = false;
 
     void Start()
     {
+        // ensure lesson starts at stage 0
+        stage = 0;
+        waitingForChoice = false;
+
+        // Hook up NEXT button
+        NextButton.onClick.RemoveAllListeners();
         NextButton.onClick.AddListener(NextStage);
+
         DisableOptions();
         RunStage();
     }
 
     void NextStage()
     {
-        if (waitingForChoice) return;
+        if (waitingForChoice)
+            return;
 
         stage++;
         RunStage();
@@ -41,55 +52,25 @@ public class IfElseGame : MonoBehaviour
 
         switch (stage)
         {
-            case 0:
-                Intro();
-                break;
+            case 0: Intro(); break;
 
-            // IF
-            case 1:
-                TeachIf();
-                break;
-            case 2:
-                IfMiniGame();
-                break;
+            case 1: TeachIf(); break;
+            case 2: IfMiniGame(); break;
 
-            // ELSE
-            case 3:
-                TeachElse();
-                break;
-            case 4:
-                ElseMiniGame();
-                break;
+            case 3: TeachElse(); break;
+            case 4: ElseMiniGame(); break;
 
-            // ELIF
-            case 5:
-                TeachElif();
-                break;
-            case 6:
-                ElifMiniGame();
-                break;
+            case 5: TeachElif(); break;
+            case 6: ElifMiniGame(); break;
 
-            // Short-hand IF
-            case 7:
-                TeachShorthand();
-                break;
+            case 7: TeachShorthand(); break;
 
-            // Logical Operators
-            case 8:
-                TeachLogical();
-                break;
-            case 9:
-                LogicalMiniGame();
-                break;
+            case 8: TeachLogical(); break;
+            case 9: LogicalMiniGame(); break;
 
-            // Nested If
-            case 10:
-                TeachNestedIf();
-                break;
+            case 10: TeachNestedIf(); break;
 
-            case 11:
-                Ending();
-                break;
+            case 11: Ending(); break;
 
             default:
                 WolfText.text = "End of lesson!";
@@ -100,7 +81,7 @@ public class IfElseGame : MonoBehaviour
         }
     }
 
-    // --------------------- STAGES ---------------------
+    // ---------------- LESSON STAGES ----------------
 
     void Intro()
     {
@@ -111,25 +92,27 @@ public class IfElseGame : MonoBehaviour
 
     void TeachIf()
     {
-        WolfText.text = "In Python, IF checks a condition. If true, the code runs!";
+        WolfText.text = "IF checks if a condition is true.";
         CodeText.text =
             "x = 5\n" +
             "if x > 3:\n" +
             "    print(\"x is big!\")";
-        QuestionText.text = "Press NEXT when ready.";
+        QuestionText.text = "Press NEXT to continue.";
     }
 
     void IfMiniGame()
     {
-        WolfText.text = "Mini-game #1: Which IF statement prints 'OK'?";
+        WolfText.text = "Mini-game #1: Which IF condition prints 'OK'?";
         CodeText.text =
             "temperature = 20\n" +
             "if _____:\n" +
             "    print(\"OK\")";
 
         QuestionText.text = "Choose the correct condition:";
+
         SetupChoices(
-            new string[] {
+            new string[]
+            {
                 "temperature < 10",
                 "temperature == 20",
                 "temperature > 50"
@@ -167,7 +150,7 @@ public class IfElseGame : MonoBehaviour
 
     void TeachElif()
     {
-        WolfText.text = "ELIF lets you check multiple conditions in order!";
+        WolfText.text = "ELIF lets you check multiple conditions!";
         CodeText.text =
             "if x > 10:\n" +
             "    print(\"Big\")\n" +
@@ -198,15 +181,14 @@ public class IfElseGame : MonoBehaviour
 
     void TeachShorthand()
     {
-        WolfText.text = "Shorthand IF lets you write small checks in one line!";
-        CodeText.text =
-            "print(\"Yes\") if a == 5 else print(\"No\")";
+        WolfText.text = "Shorthand IF lets you write quick checks.";
+        CodeText.text = "print(\"Yes\") if a == 5 else print(\"No\")";
         QuestionText.text = "Press NEXT.";
     }
 
     void TeachLogical()
     {
-        WolfText.text = "Logical operators allow complex conditions!";
+        WolfText.text = "Logical operators allow multiple conditions!";
         CodeText.text =
             "if age > 18 and age < 30:\n" +
             "    print(\"Young adult\")\n\n" +
@@ -225,7 +207,8 @@ public class IfElseGame : MonoBehaviour
             "    print(\"SAFE\")";
 
         SetupChoices(
-            new string[] {
+            new string[]
+            {
                 "When x < 5 AND y < 20",
                 "When x > 5 OR y > 20",
                 "Never"
@@ -236,7 +219,7 @@ public class IfElseGame : MonoBehaviour
 
     void TeachNestedIf()
     {
-        WolfText.text = "Nested IF statements allow deeper checking!";
+        WolfText.text = "Nested IF checks inside another IF!";
         CodeText.text =
             "x = 10\n" +
             "if x > 5:\n" +
@@ -247,13 +230,13 @@ public class IfElseGame : MonoBehaviour
 
     void Ending()
     {
-        WolfText.text = "Great job! You've mastered IF, ELSE, ELIF, logic, and nested conditions!";
+        WolfText.text = "Great job! You've mastered conditions!";
         CodeText.text = "";
-        QuestionText.text = "You may leave the forest of decisions!";
+        QuestionText.text = "You may leave the forest of decisions.";
         DisableOptions();
     }
 
-    // --------------------- CHOICES ---------------------
+    // ---------------- CHOICE SYSTEM ----------------
 
     void SetupChoices(string[] labels, int correctIndex)
     {
@@ -261,26 +244,45 @@ public class IfElseGame : MonoBehaviour
 
         for (int i = 0; i < OptionButtons.Count; i++)
         {
-            OptionButtons[i].gameObject.SetActive(i < labels.Length);
+            bool shouldShow = i < labels.Length;
+            OptionButtons[i].gameObject.SetActive(shouldShow);
+
+            if (!shouldShow) continue;
+
             OptionLabels[i].text = labels[i];
 
             int choice = i;
             OptionButtons[i].onClick.RemoveAllListeners();
-            OptionButtons[i].onClick.AddListener(() => Choose(choice == correctIndex));
+            OptionButtons[i].onClick.AddListener(() =>
+            {
+                Choose(choice == correctIndex, correctIndex);
+            });
         }
     }
 
-    void Choose(bool correct)
+    void Choose(bool correct, int correctIndex)
     {
-        waitingForChoice = false;
-
         if (correct)
+        {
             FeedbackText.text = "<color=#6aff7f>Correct!</color>";
+            waitingForChoice = false;
+            DisableOptions();     // hide buttons
+        }
         else
-            FeedbackText.text = "<color=#ff6a6a>Incorrect!</color>";
+        {
+            FeedbackText.text = "<color=#ff6a6a>Incorrect! Try again.</color>";
 
-        DisableOptions();
+            // Re-enable ALL options so player can retry
+            for (int i = 0; i < OptionButtons.Count; i++)
+            {
+                OptionButtons[i].gameObject.SetActive(i < OptionLabels.Count);
+            }
+
+            // Do NOT allow NEXT, do NOT advance stage  
+            waitingForChoice = true;
+        }
     }
+
 
     void DisableOptions()
     {

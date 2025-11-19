@@ -1,56 +1,67 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class CaseGame : MonoBehaviour
 {
-    public TextMeshProUGUI inputText;
-    public TextMeshProUGUI outputText;
-    public TextMeshProUGUI feedback;
+    [Header("UI Elements")]
+    public TextMeshProUGUI inputText;      // Shows the messed-up string
+    public TextMeshProUGUI outputText;     // Shows corrected string
+    public TextMeshProUGUI feedback;       // Wolf's comments
+    public TextMeshProUGUI puzzleText;     
 
     private string originalText;
     private int currentPhrase = 0;
 
-    private string[] phrases = {
-        "  hello, world!  ",
-        "tHis Is A TeST",
-        "  PYTHON Is Fun!  "
+    private string[] phrases =
+    {
+        "ThE AnCieNt RuNeS gLoW FaiNtLy",
+        "dEeP iN tHe cAvE, a vOiCe WhiSpErS",
+        "tHe LoSt ScRiPt rEtUrNs",
+        "mYsTiC sYmBoLs cOvEr tHe wAlLs",
+        "aNcIeNt kNoWLeDgE sHaLl rIsE"
     };
 
     void Start()
     {
-        LoadPhrase();
+        LoadRandomPhrase();
     }
 
-    void LoadPhrase()
+    public void LoadRandomPhrase()
     {
+        int newIndex = Random.Range(0, phrases.Length);
+        currentPhrase = newIndex;
+
         originalText = phrases[currentPhrase];
+
         inputText.text = originalText;
+        puzzleText.text = originalText;
+
         outputText.text = "";
-        feedback.text = "Try fixing this string!";
+        feedback.text = "";
     }
 
-    public void Btn_Upper()
+    // Transformations
+    public void ApplyUpper()
     {
         outputText.text = originalText.ToUpper();
-        feedback.text = "Nice! You used upper() to capitalize everything.";
+        feedback.text = "The runes shine with renewed power!";
     }
 
-    public void Btn_Lower()
+    public void ApplyLower()
     {
         outputText.text = originalText.ToLower();
-        feedback.text = "Good job! You used lower() to make it all lowercase.";
+        feedback.text = "Soft echoes fill the cave… the text stabilizes.";
     }
 
-    public void Btn_Strip()
+    public void ApplyStrip()
     {
         outputText.text = originalText.Trim();
-        feedback.text = "Perfect! You used strip() to remove spaces.";
+        feedback.text = "Unwanted glyphs fade into dust.";
     }
 
-    public void Btn_TryAnother()
+    // Reloads a new phrase
+    public void TryAnother()
     {
-        currentPhrase = (currentPhrase + 1) % phrases.Length;
-        LoadPhrase();
+        LoadRandomPhrase();
     }
 }
