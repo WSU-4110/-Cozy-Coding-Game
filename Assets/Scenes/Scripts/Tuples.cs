@@ -131,7 +131,7 @@ public class Tuples : MonoBehaviour
     {
         if (selectedSmallest == smallestValue && selectedLargest == largestValue)
         {
-            feedback.text = "Correct!";
+            feedback.text = "Correct! You got it down!";
 
             if (currentRound == rounds.Count - 1)
             {
@@ -164,13 +164,12 @@ public class Tuples : MonoBehaviour
 
     public void NextRound()
     {
-        currentRound++;
-        SetupRound();
+        SceneManager.LoadScene("Map");
     }
 
     public void GoHome()
     {
-        SceneManager.LoadScene("HomeScene");
+        SceneManager.LoadScene("Map");
     }
 }
 
