@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cfb3eee7d022d43b64431ab242323e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChestButton
-  levelSceneName: FINAL TUTORIAL
+  levelSceneName: Final Level Intro
   levelOrder: 14
   lockedSprite: {fileID: 0}
   unlockedSprite: {fileID: 0}
