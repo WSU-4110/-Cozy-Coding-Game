@@ -554,7 +554,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 319, y: 251}
+  m_AnchoredPosition: {x: 319, y: 253}
   m_SizeDelta: {x: 472.7913, y: 156.2334}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &234676603
@@ -1053,8 +1053,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1581444409
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 1945269359277807493, guid: 68c0f8548b395bd46ba150b89f8ef56e, type: 3}
   m_Color: {r: 0.51593095, g: 0.8820755, b: 0.77757484, a: 1}
@@ -2296,7 +2296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -181.69, y: -404.31}
+  m_AnchoredPosition: {x: -232, y: -516.48}
   m_SizeDelta: {x: 1265.5, y: 200.788}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1144367941
@@ -2346,8 +2346,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3880,8 +3880,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1581444409
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 4910237036403418163, guid: ffc16131759a78f4eae3d793fcda48a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

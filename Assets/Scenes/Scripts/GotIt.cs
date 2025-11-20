@@ -1,87 +1,72 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GotIt : MonoBehaviour
 {
-    public TMP_InputField codeInputField;
-    public TextMeshProUGUI resultText;
-    public TextMeshProUGUI questionText;
+    public RewardPopup rewardPopup; // drag your RewardPopup panel here in Inspector
+    public string rewardName = "House Plant"; // example reward
+    public Sprite rewardSprite; // drag the reward image here
 
-    private int currentQuestion = 0;
-    private bool answerIsCorrect = false;
+    public TextMeshProUGUI buttonText;
+    public TextMeshProUGUI speechText;
+    public Button ButtonGotIt;
+    public TMP_InputField codeInput;  //drag your input field here in Inspector
+    public Button RunButton;          //drag your RUN button here in Inspector
 
-    // Questions and answers
-    private string[] questions = new string[]
+    private string[] lines =
     {
-        "Write the code that prints the data type of x:",
-        "The following code example would print the data type of x. What data type would that be?\n\nx = 5\nprint(type(x))",
-        "The following code example would print the data type of x. What data type would that be?\n\nx = \"Hello World\"\nprint(type(x))"
+        "In Python, to print words, you simply type \"print\" followed by (\"Insert Words Here\")",
+        "Try it for yourself! Don't Forget to hit RUN to see your output!"
     };
 
-    private string[] answers = new string[]
-    {
-        "print(type(x))",
-        "int",
-        "str"
-    };
+    private int index = 0;
 
     void Start()
     {
-        // Start with question 1
-        questionText.text = questions[currentQuestion];
-        resultText.text = "";
-        codeInputField.gameObject.SetActive(false);
+        //start with the first line
+        speechText.text = lines[index];
+
+        //hook up button click
+        ButtonGotIt.onClick.AddListener(NextLine);
+
+        //hook up RUN button
+        RunButton.onClick.AddListener(CheckCode);
     }
 
-    public void OnGotItClick()
+    void NextLine()
     {
-        // If the current answer is correct, move to next question
-        if (answerIsCorrect)
+        if (index < lines.Length - 1)
         {
-            currentQuestion++;
+            index++;
+            speechText.text = lines[index];
 
-            if (currentQuestion < questions.Length)
+            //hide button on second line
+            if (index == 1)
             {
-                questionText.text = questions[currentQuestion];
-                resultText.text = "";
-                codeInputField.text = "";
-                answerIsCorrect = false;
-            }
-            else
-            {
-                // End of quiz
-                questionText.text = "🎉 Great job! You’ve completed all questions for Data Types! Now let's move on to Numbers.";
-                resultText.text = "";
-                codeInputField.gameObject.SetActive(false);
-                return;
+                ButtonGotIt.gameObject.SetActive(false);
             }
         }
-
-        // Show and focus input field for typing
-        codeInputField.gameObject.SetActive(true);
-        codeInputField.Select();
-        codeInputField.ActivateInputField();
     }
 
-    void Update()
+    void CheckCode()
     {
-        // Check if Enter is pressed
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            string userAnswer = codeInputField.text.Trim();
+        string playerCode = codeInput.text.Trim();
+        string correctAnswer = "print(\"Hello World\")";
 
-            if (userAnswer == answers[currentQuestion])
+        if (playerCode == correctAnswer)
+        {
+            speechText.text = "Great job!! You got it!";
+
+            // Show the reward popup
+            if (rewardPopup != null)
             {
-                resultText.text = "✅ Correct!";
-                resultText.color = Color.green;
-                answerIsCorrect = true;
+                rewardPopup.Show(rewardName, rewardSprite);
             }
-            else
-            {
-                resultText.text = "❌ Wrong answer. Try again.";
-                resultText.color = Color.red;
-                answerIsCorrect = false;
-            }
+        }
+        else
+        {
+            speechText.text = "Hmm, try again!";
         }
     }
 }
