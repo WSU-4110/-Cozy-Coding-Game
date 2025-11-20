@@ -187,6 +187,8 @@ public class globalVar : MonoBehaviour
         speechvar.text = "Awesome! You’ve mastered global variables!";
         feedbackText.text = "";
         nextLevelButton.gameObject.SetActive(true);
+        nextLevelButton.onClick.RemoveAllListeners();
+        nextLevelButton.onClick.AddListener(LoadNextScene);
     }
 
     void SetMiniGameActive(bool active)
@@ -206,6 +208,6 @@ public class globalVar : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene("NextSceneName"); // Replace with your next scene
+        SceneManager.LoadScene("Map"); // Replace with your next scene
     }
 }
