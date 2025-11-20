@@ -1,123 +1,158 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class SliceGame : MonoBehaviour
 {
+    [Header("UI Elements")]
     public TextMeshProUGUI encodedText;
     public TextMeshProUGUI outputText;
-    public TextMeshProUGUI feedback;
+    public TextMeshProUGUI feedbackText;
 
-    private int currentIndex = 0;
+    [Header("Buttons")]
+    public Button reverseButton;
+    public Button sliceStartButton;
+    public Button sliceEndButton;
+    public Button tryAnotherButton;
 
-    private string[] encodedMessages = {
-        // Reverse puzzles
-        "!noitcetorP fo enots ehT",
-        "!tahw sdniw tneicnA eht yrraC",
-        "!reveN nrut eht yek ot tsap",
+    // ------------------------------
+    //   PHRASES & THEIR SOLUTIONS
+    // ------------------------------
 
-        // First-half puzzles
-        "GuardianSpirit##whispersBelow",
-        "MoonBlessing__echoesDeep",
-        "SacredFlameRises%%shadowFalls",
+    private class SlicePuzzle
+    {
+        public string scrambled;
+        public string correct;
+        public string correctSliceStart;  // e.g. "[0:5]"
+        public string correctSliceEnd;    // e.g. "[-5:]"
+        public bool needsReverse;         // whether reverse is needed before slicing
 
-        // Last-half puzzles
-        "runesXXmysticTruthAwakens",
-        "sealKey##PathOpensNow",
-        "deepCave++AncientMemoryReturns"
-    };
+        public SlicePuzzle(string scrambled, string correct, string start, string end, bool rev)
+        {
+            this.scrambled = scrambled;
+            this.correct = correct;
+            this.correctSliceStart = start;
+            this.correctSliceEnd = end;
+            this.needsReverse = rev;
+        }
+    }
 
-    private string[] correctDecoded = {
-        "The stone of Protection",
-        "Carry the Ancient winds!",
-        "Never turn the key to past",
-
-        "GuardianSpirit",
-        "MoonBlessing",
-        "SacredFlameRises",
-
-        "mysticTruthAwakens",
-        "PathOpensNow",
-        "AncientMemoryReturns"
-    };
-
-    private enum SliceType { Reverse, FirstHalf, LastHalf }
-    private SliceType[] puzzleSolution = {
-        SliceType.Reverse,
-        SliceType.Reverse,
-        SliceType.Reverse,
-
-        SliceType.FirstHalf,
-        SliceType.FirstHalf,
-        SliceType.FirstHalf,
-
-        SliceType.LastHalf,
-        SliceType.LastHalf,
-        SliceType.LastHalf
-    };
+    private SlicePuzzle[] puzzles;
+    private SlicePuzzle current;
+    private string workingText;
+    private bool usedStart, usedEnd;
 
     void Start()
     {
-        LoadPuzzle();
+        puzzles = new SlicePuzzle[]
+        {
+            new SlicePuzzle("dlroW olleH", "Hello World", "[::-1]", "[::]", true),
+            new SlicePuzzle("gnidoc evol I", "I love coding", "[::-1]", "[::]", true),
+            new SlicePuzzle("!!!noitcetorp fo enots ehT", "The stone of protection!!!", "[::-1]", "[::]", true),
+
+            new SlicePuzzle("xxxxHelloWorldxxxx", "HelloWorld", "[4:]", "[:-4]", false),
+            new SlicePuzzle("___PythonRocks___", "PythonRocks", "[3:]", "[:-3]", false),
+            new SlicePuzzle("###SliceGame###", "SliceGame", "[3:]", "[:-3]", false)
+        };
+
+        // Button listeners
+        reverseButton.onClick.AddListener(OnReverse);
+        sliceStartButton.onClick.AddListener(OnSliceStart);
+        sliceEndButton.onClick.AddListener(OnSliceEnd);
+        tryAnotherButton.onClick.AddListener(LoadRandomPuzzle);
+
+        LoadRandomPuzzle();
     }
 
-    void LoadPuzzle()
+    // -----------------------------
+    //      LOAD NEW PUZZLE
+    // -----------------------------
+    void LoadRandomPuzzle()
     {
+        current = puzzles[Random.Range(0, puzzles.Length)];
+
+        workingText = current.scrambled;
+        encodedText.text = workingText;
+
         outputText.text = "";
-        encodedText.text = encodedMessages[currentIndex];
-        feedback.text = "These symbols feel ancient… try slicing the message!";
+        feedbackText.text = "";
+
+        usedStart = false;
+        usedEnd = false;
     }
 
-    // ---------------- BUTTONS ----------------
-
-    public void Btn_Reverse()
+    void OnReverse()
     {
-        string result = ReverseString(encodedMessages[currentIndex]);
-        outputText.text = result;
-        CheckResult(result, SliceType.Reverse);
+        workingText = ReverseString(workingText);
+        outputText.text = workingText;
+        CheckCompletion();
     }
 
-    public void Btn_FirstHalf()
+    void OnSliceStart()
     {
-        string msg = encodedMessages[currentIndex];
-        string result = msg.Substring(0, msg.Length / 2);
-        outputText.text = result;
-        CheckResult(result, SliceType.FirstHalf);
+        usedStart = true;
+
+        if (current.correctSliceStart.Contains("[4:")) workingText = workingText.Substring(4);
+        else if (current.correctSliceStart.Contains("[3:")) workingText = workingText.Substring(3);
+        else if (current.correctSliceStart.Contains("[::-1]")) workingText = ReverseString(workingText);
+
+        outputText.text = workingText;
+        CheckCompletion();
     }
 
-    public void Btn_LastHalf()
+    void OnSliceEnd()
     {
-        string msg = encodedMessages[currentIndex];
-        string result = msg.Substring(msg.Length / 2);
-        outputText.text = result;
-        CheckResult(result, SliceType.LastHalf);
+        usedEnd = true;
+
+        if (current.correctSliceEnd.Contains("[:-4]")) workingText = workingText.Substring(0, workingText.Length - 4);
+        else if (current.correctSliceEnd.Contains("[:-3]")) workingText = workingText.Substring(0, workingText.Length - 3);
+        else if (current.correctSliceEnd.Contains("[::]")) { /* do nothing */ }
+
+        outputText.text = workingText;
+        CheckCompletion();
     }
 
-    public void Btn_TryAnother()
+    // -----------------------------
+    //     CHECK IF SOLVED
+    // -----------------------------
+    void CheckCompletion()
     {
-        currentIndex = (currentIndex + 1) % encodedMessages.Length;
-        LoadPuzzle();
-    }
-
-    // ---------------- CHECKING ----------------
-
-    private void CheckResult(string playerOutput, SliceType usedType)
-    {
-        if (usedType == puzzleSolution[currentIndex] &&
-            playerOutput == correctDecoded[currentIndex])
+        // Reverse-only puzzles
+        if (current.needsReverse)
         {
-            feedback.text = "The rune glows… you decoded its secret!";
+            if (workingText == current.correct)
+            {
+                feedbackText.text = "Correct! Message decoded.";
+            }
+            else
+            {
+                feedbackText.text = "";
+            }
+            return;
         }
-        else if (usedType != puzzleSolution[currentIndex])
+
+        // Slice puzzles require BOTH start & end
+        if (usedStart && usedEnd)
         {
-            feedback.text = "Hmm… the rune resists. Try a different slice.";
+            if (workingText == current.correct)
+            {
+                feedbackText.text = "Great! You decoded the phrase!";
+            }
+            else
+            {
+                feedbackText.text = "Incorrect slice combination. Try again.";
+            }
         }
         else
         {
-            feedback.text = "You're close… but the symbols aren’t aligned.";
+            feedbackText.text = "";
         }
     }
 
-    private string ReverseString(string s)
+    // -----------------------------
+    //   REVERSE HELPER FUNCTION
+    // -----------------------------
+    string ReverseString(string s)
     {
         char[] arr = s.ToCharArray();
         System.Array.Reverse(arr);

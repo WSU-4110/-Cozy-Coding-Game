@@ -5,75 +5,88 @@ using UnityEngine.UI;
 public class SplitGame : MonoBehaviour
 {
     [Header("UI References")]
-    public TextMeshProUGUI puzzleText;      
-    public TMP_InputField inputText;        // Player's typed input
+    public TextMeshProUGUI puzzleText;
+    public TMP_InputField inputText;
+    public TextMeshProUGUI feedbackText;
     public TextMeshProUGUI outputText;
-    public TextMeshProUGUI feedback;
 
-    private string currentPuzzle = "";
+    private int round = 0;
 
-    private string[] puzzleStrings =
+    // Scrambled phrases (no commas, no spaces)
+    private string[] scrambledPhrases =
     {
-        "echoes,of,the,deep",
-        "ancient,stones,remember",
-        "whispers,from,the,abyss",
-        "lost,rune,of,shadows",
-        "forgotten,path,beneath",
-        "mystic,crystals,singing",
-        "engraved,secrets,slumber",
-        "hollow,earth,awakens",
-        "arcane,patterns,hidden",
-        "shattered,glyphs,echo"
+        "engravedsecretslumber",
+        "crystallanternforest",
+        "whisperancientmemory"
+    };
+
+    // Correct solutions (3 words each)
+    private string[] correctSolutions =
+    {
+        "engraved,secret,slumber",
+        "crystal,lantern,forest",
+        "whisper,ancient,memory"
     };
 
     void Start()
     {
-        GenerateNewPuzzle();
+        LoadRound();
     }
 
-    public void GenerateNewPuzzle()
+    // Load the current round
+    void LoadRound()
     {
-        int pick = Random.Range(0, puzzleStrings.Length);
-        currentPuzzle = puzzleStrings[pick];
-
-        puzzleText.text = currentPuzzle;     // Shows the scrambled ancient string
+        puzzleText.text = scrambledPhrases[round];
+        feedbackText.text = "";
         outputText.text = "";
-        feedback.text = "";
-        inputText.text = "";                 // clears player input
+        inputText.text = "";
     }
 
-    public void Btn_SplitIt()
+    // Called when player presses SPIT IT button
+    public void OnSplitClicked()
     {
-        string input = inputText.text;
+        string user = Normalize(inputText.text);
+        string answer = Normalize(correctSolutions[round]);
 
-        if (string.IsNullOrEmpty(input))
+        if (user == answer)
         {
-            feedback.text = "Enter some text first!";
-            return;
-        }
+            // Good!
+            string[] words = correctSolutions[round].Split(',');
+            outputText.text = $"[ {words[0]}, {words[1]}, {words[2]} ]";
+            feedbackText.text = "Great job!";
 
-        string[] parts = input.Split(',');
+            round++;
 
-        string result = "[";
-
-        for (int i = 0; i < parts.Length; i++)
-        {
-            result += $"'{parts[i].Trim()}'";
-            if (i < parts.Length - 1)
-                result += ", ";
-        }
-
-        result += "]";
-
-        outputText.text = result;
-
-        if (input == currentPuzzle)
-        {
-            feedback.text = "Great! You decoded the ancient inscription!";
+            if (round < scrambledPhrases.Length)
+                Invoke(nameof(LoadRound), 1f);
+            else
+                EndGame();
         }
         else
         {
-            feedback.text = "Hmm… not quite right. Try matching the symbols exactly.";
+            feedbackText.text = "Not quite. Try splitting into 3 words.";
+            outputText.text = "";
         }
+    }
+
+    void EndGame()
+    {
+        puzzleText.text = "You decoded all the messages!";
+        feedbackText.text = "Great work!";
+        outputText.text = "";
+        inputText.gameObject.SetActive(false);
+    }
+
+    // Makes text easy to compare
+    string Normalize(string s)
+    {
+        return s.ToLower()
+            .Replace(" ", "")
+            .Replace("[", "")
+            .Replace("]", "")
+            .Replace("(", "")
+            .Replace(")", "")
+            .Replace("\"", "")
+            .Trim();
     }
 }

@@ -43,11 +43,11 @@ public class StringMasterController : MonoBehaviour
                 break;
             case 1:
                 splitPanel.SetActive(true);
-                wolfText.text = "Let’s separate and join words using split() and join()!";
+                wolfText.text = "Let’s separate the clutered words using split()!";
                 break;
             case 2:
                 casePanel.SetActive(true);
-                wolfText.text = "Let’s try changing text to UPPER or lower case!";
+                wolfText.text = "The message is corrupted!\r\nApply the correct sequence of string functions to repair it.";
                 break;
             case 3:
                 slicePanel.SetActive(true);

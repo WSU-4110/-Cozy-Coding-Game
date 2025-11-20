@@ -1,67 +1,82 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class CaseGame : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TextMeshProUGUI inputText;      // Shows the messed-up string
-    public TextMeshProUGUI outputText;     // Shows corrected string
-    public TextMeshProUGUI feedback;       // Wolf's comments
-    public TextMeshProUGUI puzzleText;     
+    public TextMeshProUGUI puzzleText;
+    public TextMeshProUGUI feedbackText;
 
-    private string originalText;
-    private int currentPhrase = 0;
+    // Buttons
+    public Button upperButton;
+    public Button lowerButton;
+    public Button stripButton;
 
-    private string[] phrases =
-    {
-        "ThE AnCieNt RuNeS gLoW FaiNtLy",
-        "dEeP iN tHe cAvE, a vOiCe WhiSpErS",
-        "tHe LoSt ScRiPt rEtUrNs",
-        "mYsTiC sYmBoLs cOvEr tHe wAlLs",
-        "aNcIeNt kNoWLeDgE sHaLl rIsE"
-    };
+    
+    private string originalPhrase = "tHe lOsT sCrIpT rEtUrNs...";
+    private string currentPhrase;
+
+    private string[] correctSequence = { "upper", "lower", "strip", "upper", "lower" };
+    private int currentStep = 0;
 
     void Start()
     {
-        LoadRandomPhrase();
+        ResetPuzzle();
+
+        // Hook buttons
+        upperButton.onClick.AddListener(() => HandlePress("upper"));
+        lowerButton.onClick.AddListener(() => HandlePress("lower"));
+        stripButton.onClick.AddListener(() => HandlePress("strip"));
     }
 
-    public void LoadRandomPhrase()
+    void ResetPuzzle()
     {
-        int newIndex = Random.Range(0, phrases.Length);
-        currentPhrase = newIndex;
-
-        originalText = phrases[currentPhrase];
-
-        inputText.text = originalText;
-        puzzleText.text = originalText;
-
-        outputText.text = "";
-        feedback.text = "";
+        currentPhrase = originalPhrase;
+        puzzleText.text = currentPhrase;
+        feedbackText.text = "Match the hidden 5-step sequence!";
+        currentStep = 0;
     }
 
-    // Transformations
-    public void ApplyUpper()
+    void HandlePress(string pressed)
     {
-        outputText.text = originalText.ToUpper();
-        feedback.text = "The runes shine with renewed power!";
+        if (pressed != correctSequence[currentStep])
+        {
+            feedbackText.text = "Wrong button! Sequence reset.";
+            ResetPuzzle();
+            return;
+        }
+
+        ApplyTransform(pressed);
+        currentStep++;
+
+        // Update messages
+        if (currentStep >= correctSequence.Length)
+        {
+            feedbackText.text = "You solved it! The script returns!";
+        }
+        else
+        {
+            feedbackText.text = $"Good! Step {currentStep} / {correctSequence.Length} complete.";
+        }
     }
 
-    public void ApplyLower()
+    void ApplyTransform(string action)
     {
-        outputText.text = originalText.ToLower();
-        feedback.text = "Soft echoes fill the cave… the text stabilizes.";
-    }
+        if (action == "upper")
+        {
+            currentPhrase = currentPhrase.ToUpper();
+        }
+        else if (action == "lower")
+        {
+            currentPhrase = currentPhrase.ToLower();
+        }
+        else if (action == "strip")
+        {
+            currentPhrase = currentPhrase.Replace(" ", "");
+        }
 
-    public void ApplyStrip()
-    {
-        outputText.text = originalText.Trim();
-        feedback.text = "Unwanted glyphs fade into dust.";
-    }
-
-    // Reloads a new phrase
-    public void TryAnother()
-    {
-        LoadRandomPhrase();
+        // Update puzzle text display
+        puzzleText.text = currentPhrase;
     }
 }
