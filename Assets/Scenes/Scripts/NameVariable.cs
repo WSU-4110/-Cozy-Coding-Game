@@ -187,6 +187,8 @@ public class VariableNamesLevelCascading : MonoBehaviour
         speechvar.text = "Awesome! You’ve mastered variable names!";
         feedbackText.text = "";
         nextLevelButton.gameObject.SetActive(true);
+        nextLevelButton.onClick.RemoveAllListeners();
+        nextLevelButton.onClick.AddListener(LoadNextScene);
     }
 
     void SetMiniGameActive(bool active)
@@ -206,6 +208,6 @@ public class VariableNamesLevelCascading : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene("NextSceneName"); // Replace with your next scene
+        SceneManager.LoadScene("Multiple Var"); // Replace with your next scene
     }
 }

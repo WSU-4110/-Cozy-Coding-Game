@@ -1,19 +1,24 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 
 public class ListLevel1Script : MonoBehaviour
 {
-    public TMP_InputField codeInput; 
+    public TMP_InputField codeInput;
     public TextMeshProUGUI ListLevel1Instruct; //Wolf Text Bubble
     public TextMeshProUGUI ListLevel1Output; //Output Text Box
+    public GameObject rewardImage; // Assign your reward sprite GameObject here
+    public Button backToMapButton; // Assign Back to Map button here
+    public string mapSceneName = "ListLevelPart2"; // Name of your Map scene
 
 
-    private int levelPart= 0; //lvl 1
+    private int levelPart = 0; //lvl 1
 
 
-    private string[] partInstruct = 
+    private string[] partInstruct =
     {
         "Part 1(Accessing list): Access the second item in the list, myList. ",
         "Part 2(Changing a list): Change the First item in myList to 'pear'.",
@@ -21,21 +26,21 @@ public class ListLevel1Script : MonoBehaviour
 
     };
 
-    private string[] validInputs = 
+    private string[] validInputs =
     {
         "myList[1]",
         "myList[0] = 'pear'",
         "myList.insert(1, 'plum')"
     };
 
-    private string[] partHint = 
+    private string[] partHint =
     {
         "Lists are indexxed, the first item being index 0, use myList[index #].",
         "To change an item in a list, use myList[index #] = 'new item'.",
         "To add an item in a list, use myList.insert(index #, 'new item')."
     };
 
-    private string[] partOutputs = 
+    private string[] partOutputs =
     {
         "banana",
         "['pear', 'banana', 'cherry']",
@@ -56,17 +61,30 @@ public class ListLevel1Script : MonoBehaviour
             ListLevel1Output.text = "Correct!\nOutput: " + partOutputs[levelPart];
             levelPart++;
 
-            if (levelPart < partHint.Length) //are we stil in the range of levels available?
+            if (levelPart < partHint.Length)
             {
                 ListLevel1Instruct.text = partInstruct[levelPart];
-                codeInput.text = ""; //If we still have levels left, clear input box
-                
-
+                codeInput.text = "";
             }
             else
             {
+                // Level complete
                 ListLevel1Instruct.text = "You have completed Python Lists Level 1!";
                 ListLevel1Output.text = "Great Job!\nOutput: " + partOutputs[2];
+
+                // Show reward and Back to Map button
+                if (rewardImage != null)
+                    rewardImage.SetActive(true);
+
+                if (backToMapButton != null)
+                {
+                    backToMapButton.gameObject.SetActive(true);
+                    backToMapButton.onClick.RemoveAllListeners();
+                    backToMapButton.onClick.AddListener(() =>
+                    {
+                        SceneManager.LoadScene(mapSceneName); // Takes user back to Map
+                    });
+                }
             }
         }
         else
@@ -81,6 +99,12 @@ public class ListLevel1Script : MonoBehaviour
         ListLevel1Instruct.text = partInstruct[levelPart];
         ListLevel1Output.text = "";
         codeInput.text = "";
+
+        // Hide reward and back button again on restart
+        if (rewardImage != null)
+            rewardImage.SetActive(false);
+        if (backToMapButton != null)
+            backToMapButton.gameObject.SetActive(false);
     }
-    
 }
+

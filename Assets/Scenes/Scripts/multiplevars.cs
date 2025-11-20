@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class OutputVar : MonoBehaviour
+public class MultipleVariablesLevel : MonoBehaviour
 {
     [Header("Dialogue UI")]
     public TextMeshProUGUI speechvar;
@@ -29,22 +29,22 @@ public class OutputVar : MonoBehaviour
     private bool gameStarted = false;
 
     private string[] dialogueLines = {
-        "In Python, you can store values in variables and then display them using output.",
-        "The most common way to display a value is with the print() function.",
-        "You can also combine variables and text to show meaningful messages.",
-        "Let's fix these examples where the output is incorrect!"
+        "Time to work with multiple variables!",
+        "Variables can store different types of information.",
+        "Let's practice naming multiple variables correctly.",
+        "Fix these variable names!"
     };
 
     private string[] badNames = {
-        "print(x + y",
-        "output = x y",
-        "print('The score is' score)"
+        "2playerScore",
+        "player health",
+        "level-name_score"
     };
 
     private string[] explanations = {
-        "Remember to close parentheses: print(x + y)",
-        "You need a proper operator or comma: output = x + y",
-        "Use commas or f-strings: print('The score is', score)"
+        "Variable names can’t start with a number.",
+        "No spaces—use camelCase like playerHealth.",
+        "Hyphens aren’t allowed; use underscores or camelCase."
     };
 
     private int currentIndex = 0;
@@ -84,12 +84,11 @@ public class OutputVar : MonoBehaviour
         gameStarted = true;
         continueButton.gameObject.SetActive(false);
 
-        // Show first question
         badName1.gameObject.SetActive(true);
         input1.gameObject.SetActive(true);
         enter1.gameObject.SetActive(true);
         badName1.text = badNames[0];
-        speechvar.text = "Fix these output examples!";
+        speechvar.text = "Fix these variable names!";
     }
 
     void CheckAnswer(int index)
@@ -131,7 +130,6 @@ public class OutputVar : MonoBehaviour
             input.interactable = false;
             enterButton.gameObject.SetActive(false);
 
-            // Show next question if any
             currentIndex++;
             ShowNextQuestion();
         }
@@ -184,9 +182,10 @@ public class OutputVar : MonoBehaviour
         enter2.gameObject.SetActive(false);
         enter3.gameObject.SetActive(false);
 
-        speechvar.text = "Awesome! You’ve mastered output variables!";
+        speechvar.text = "Awesome! You’ve mastered multiple variables!";
         feedbackText.text = "";
         nextLevelButton.gameObject.SetActive(true);
+
         nextLevelButton.onClick.RemoveAllListeners();
         nextLevelButton.onClick.AddListener(LoadNextScene);
     }
@@ -208,7 +207,7 @@ public class OutputVar : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene("Global Variables"); // Replace with your next scene
+        SceneManager.LoadScene("Output Variables"); // Replace with your actual next scene
     }
 }
 

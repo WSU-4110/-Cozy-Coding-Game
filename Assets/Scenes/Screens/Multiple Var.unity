@@ -3578,7 +3578,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1637900793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a618420c35b718e4fb149c02d9cc7a12, type: 3}
+  m_Script: {fileID: 11500000, guid: df610aeae1dfa6b46a74237481dd6732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultipleVari
   speechvar: {fileID: 234676603}
@@ -3588,29 +3588,12 @@ MonoBehaviour:
   enter1: {fileID: 1207894079}
   badName2: {fileID: 433481481}
   input2: {fileID: 1459649205}
-  enter2: {fileID: 1893300697}
+  enter2: {fileID: 21792865}
   badName3: {fileID: 711709432}
   input3: {fileID: 991703337}
   enter3: {fileID: 21792865}
   feedbackText: {fileID: 1144367941}
   nextLevelButton: {fileID: 1663967182}
-  dialogueIndex: 0
-  gameStarted: 0
-  dialogueLines:
-  - You can store more than one value using multiple variables.
-  - Variables can be defined on separate lines, or even on one line.
-  - The key is to keep them clear and readable.
-  - Let's fix these multiple-variable mistakes!
-  badNames:
-  - x = 5 y = 10
-  - score,coins = 10
-  - health = mana = 50 power
-  explanations:
-  - Separate variables using a semicolon or place them on new lines
-  - 'When assigning multiple variables in Python, both sides must match: score, coins
-    = 5, 10.'
-  - 'Chained assignment must have the same value: health = mana = 50.'
-  currentIndex: 0
 --- !u!1 &1663967180
 GameObject:
   m_ObjectHideFlags: 0
