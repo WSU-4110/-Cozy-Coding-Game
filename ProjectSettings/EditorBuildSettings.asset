@@ -8,5 +8,38 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Screens/Main Menu.unity
     guid: 4d982239d09890e4bbd4206fdea80f33
+  - enabled: 1
+    path: Assets/Scenes/Screens/Map.unity
+    guid: e443ba6f13e30c54d9553830a72d145d
+  - enabled: 1
+    path: Assets/Scenes/Screens/TutorialScreen.unity
+    guid: f7966c5cd3d08a24d9919909bc1d010a
+  - enabled: 1
+    path: Assets/Scenes/Screens/TutorialDataNumbCast.unity
+    guid: 33de87df765ffb74a86ae559e6e69785
+  - enabled: 1
+    path: Assets/Scenes/Screens/TutorialNumbersLevel.unity
+    guid: 03b7fbcf94078ff419277c1e15419450
+  - enabled: 1
+    path: Assets/Scenes/Screens/TutorialCasting.unity
+    guid: fa814fe7403d57246a998e38e768fa5e
+  - enabled: 1
+    path: Assets/Scenes/Screens/String Level.unity
+    guid: 0847c0d3f7f0e9d4e82427c8f9a7e17a
+  - enabled: 1
+    path: Assets/Scenes/Screens/IfElse.unity
+    guid: 487d6db5fcddc1445b76c9e830b57d95
+  - enabled: 1
+    path: Assets/Scenes/Screens/Tuples Level.unity
+    guid: 5fe8e01949cb90b4ca35976825fc9dae
+  - enabled: 1
+    path: Assets/Scenes/Screens/ListLevelTutorial.unity
+    guid: 5bc9ffa7dd24cf5479f7225a290112ed
+  - enabled: 1
+    path: Assets/Scenes/Screens/ListLevelP3Tutorial.unity
+    guid: 6dfed5acae0cead4495a2216b220290e
+  - enabled: 1
+    path: Assets/Scenes/Screens/Level 3.unity
+    guid: 15064f1d0bc414e43b13dc15fd935fce
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
