@@ -1,69 +1,123 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ReplaceGame : MonoBehaviour
 {
-    public TextMeshProUGUI signText;
-    public TextMeshProUGUI feedback;
+    [Header("UI References")]
+    public TextMeshProUGUI signText;         // Text on the stone sign / panel
+    public TextMeshProUGUI feedbackText;     // Wolf comments
+    public TextMeshProUGUI outputText;       // Optional "current string" display
 
-    private string[] brokenSigns = {
-        "WELCXME  T  YARN TOWN!",
-        "PYTHXN  IS  CXXL!",
-        "CXDING  IS  FUN!"
+    public Button replaceButton;             // .replace()
+    public Button stripButton;               // .strip()
+    public Button fixSpacesButton;           // fix spaces / clean up
+    public Button nextButton;                // Next puzzle (if you have one)
+
+    private int currentPuzzle = 0;
+    private string workingText;
+
+    // 1) Text the player sees at the start
+    private string[] brokenPuzzles = {
+        "  heXXo,   worXd!  ",
+        "  PYThon   iz   fXn  ",
+        "  lXsts   Xre   pXwerful  "
     };
 
-    private string[] fixedSigns = {
-        "WELCOME T YARN TOWN!",
-        "PYTHON IS COOL!",
-        "CODING IS FUN!"
+    // 2) How it should look AFTER using .replace()
+    private string[] afterReplace = {
+        "  hello,   world!  ",
+        "  Python   is   fun  ",
+        "  lists   are   powerful  "
     };
 
-    private int currentIndex = 0;
+    // 3) Final target text after strip + fixing spaces
+    private string[] finalTargets = {
+        "hello, world!",
+        "Python is fun",
+        "lists are powerful"
+    };
 
     void Start()
     {
-        MakePuzzle();
+        // Hook up buttons
+        replaceButton.onClick.AddListener(DoReplace);
+        stripButton.onClick.AddListener(DoStrip);
+        fixSpacesButton.onClick.AddListener(DoFixSpaces);
+
+        if (nextButton != null)
+            nextButton.onClick.AddListener(NextPuzzle);
+
+        LoadPuzzle();
     }
 
-    public void Btn_ReplaceX()
+    void LoadPuzzle()
     {
-        signText.text = signText.text.Replace("X", "O");
-        Check();
+        workingText = brokenPuzzles[currentPuzzle];
+        signText.text = workingText;
+
+        if (outputText != null)
+            outputText.text = workingText;
+
+        feedbackText.text = "Let's repair the village sign using string methods!";
     }
 
-    public void Btn_Strip()
+    void DoReplace()
     {
-        signText.text = signText.text.Trim();
-        Check();
+        workingText = afterReplace[currentPuzzle];
+        UpdateTextAndCheck();
+        feedbackText.text = "Nice! replace() fixed the wrong characters.";
     }
 
-    public void Btn_FixSpaces()
+    // .strip() – trim leading & trailing spaces
+    void DoStrip()
     {
-        signText.text = signText.text.Replace("  ", " ");
-        Check();
+        workingText = workingText.Trim();
+        UpdateTextAndCheck();
+        feedbackText.text = "strip() cleaned the edges of the string.";
     }
 
-    public void Btn_TryAnother()
+    // Fix spaces – compress multiple spaces to single spaces
+    void DoFixSpaces()
     {
-        MakePuzzle();
-    }
-
-    void MakePuzzle()
-    {
-        currentIndex = Random.Range(0, brokenSigns.Length);
-        signText.text = brokenSigns[currentIndex];
-        feedback.text = "";
-    }
-
-    void Check()
-    {
-        if (signText.text == fixedSigns[currentIndex])
+        while (workingText.Contains("  "))
         {
-            feedback.text = "<color=green>Fixed!</color>";
+            workingText = workingText.Replace("  ", " ");
         }
-        else
+
+        UpdateTextAndCheck();
+        feedbackText.text = "Much better spacing now!";
+    }
+
+    // Update UI and see if we reached the final target
+    void UpdateTextAndCheck()
+    {
+        signText.text = workingText;
+
+        if (outputText != null)
+            outputText.text = workingText;
+
+        string currentClean = workingText;
+        string target = finalTargets[currentPuzzle];
+
+        if (currentClean == target)
         {
-            feedback.text = "";
+            feedbackText.text =
+                "Perfect! The sign now reads:\n\"" + target + "\"";
         }
+    }
+
+    public void NextPuzzle()
+    {
+        currentPuzzle++;
+
+        if (currentPuzzle >= brokenPuzzles.Length)
+        {
+            feedbackText.text =
+                "You fixed all the signs! The village loves your string skills!";
+            return;
+        }
+
+        LoadPuzzle();
     }
 }

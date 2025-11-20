@@ -10,8 +10,7 @@ public class WolfDialogue : MonoBehaviour
     public Button runButton;
     public TMP_InputField inputField;
     public TextMeshProUGUI feedbackText;
-    public TextMeshProUGUI outputText; // NEW: simulated print output area
-
+    public TextMeshProUGUI outputText; 
     private int dialogueIndex = 0;
     private bool tutorialOver = false;
     private bool inExercise = false;
@@ -40,7 +39,6 @@ public class WolfDialogue : MonoBehaviour
         new string[] { "print(\"expensive\" not in txt)", "print('expensive' not in txt)" }
     };
 
-    // NEW: what the output should show for each practice example
     private string[] exampleOutputs =
     {
         "Hello World",
@@ -111,11 +109,12 @@ public class WolfDialogue : MonoBehaviour
 
     void OnRunClicked()
     {
-        string userInput = inputField.text.Trim();
+        string raw = inputField.text;
+        string user = Normalize(raw);
 
         if (tutorialOver)
         {
-            CheckExerciseAnswer(userInput);
+            CheckExerciseAnswer(raw);
             return;
         }
 
@@ -132,70 +131,66 @@ public class WolfDialogue : MonoBehaviour
             return;
         }
 
-        // Clean user input
-        string cleanUser = userInput
-            .ToLower()
-            .Replace(" ", "")
-            .Replace("\"", "")
-            .Replace("'", "")
-            .Replace("(", "")
-            .Replace(")", "")
-            .Replace("\n", "")
-            .Replace("\r", "");
-
-        // Clean expected answer
-        string cleanExpected = exampleOutputs[expectedIndex]
-            .ToLower()
-            .Replace(" ", "");
-
-        bool correct = false;
-
-        // 1. Check if user typed something that ends in or contains the expected printed output
-        if (cleanUser.Contains(cleanExpected))
-            correct = true;
-
-        // 2. Also accept actual print() syntax from expectedAnswers list
-        if (!correct)
+        // 1. Accept exact output ("helloworld", "true", etc.)
+        string expectedOut = Normalize(exampleOutputs[expectedIndex]);
+        if (user.Contains(expectedOut))
         {
-            foreach (string possible in expectedAnswers[expectedIndex])
-            {
-                string cleanPossible = possible
-                    .ToLower()
-                    .Replace(" ", "")
-                    .Replace("\"", "")
-                    .Replace("'", "")
-                    .Replace("(", "")
-                    .Replace(")", "")
-                    .Replace("\n", "")
-                    .Replace("\r", "");
+            AcceptAnswer(expectedIndex);
+            return;
+        }
 
-                if (cleanUser == cleanPossible)
-                {
-                    correct = true;
-                    break;
-                }
+        // 2. Accept any expected syntax variation
+        foreach (string syntax in expectedAnswers[expectedIndex])
+        {
+            if (user.Contains(Normalize(syntax)))
+            {
+                AcceptAnswer(expectedIndex);
+                return;
             }
         }
 
-        if (correct)
+        // 3. Additional forgiveness: allow missing semicolons, double spaces, order changes
+        if (user.Contains("print") && user.Contains(expectedOut))
         {
-            feedbackText.text = "Correct! Great job!";
-            waitingForInput = false;
-            runButton.gameObject.SetActive(false);
-            inputField.gameObject.SetActive(false);
-            nextButton.gameObject.SetActive(true);
+            AcceptAnswer(expectedIndex);
+            return;
+        }
 
-            if (outputText != null)
-            {
-                outputText.text = "Output:\n> " + exampleOutputs[expectedIndex];
-            }
-        }
-        else
-        {
-            feedbackText.text = "Not quite right. Check your syntax and spacing.";
-            if (outputText != null) outputText.text = "";
-        }
+        // Otherwise incorrect
+        feedbackText.text = "Not quite right. Check your syntax and spacing.";
+        if (outputText != null) outputText.text = "";
     }
+
+
+    // Called when correct — reused for cleaner code
+    void AcceptAnswer(int index)
+    {
+        feedbackText.text = "Correct! Great job!";
+        waitingForInput = false;
+        runButton.gameObject.SetActive(false);
+        inputField.gameObject.SetActive(false);
+        nextButton.gameObject.SetActive(true);
+
+        if (outputText != null)
+            outputText.text = "Output:\n> " + exampleOutputs[index];
+    }
+
+
+    private string Normalize(string s)
+    {
+        return s.ToLower()
+                .Replace(" ", "")
+                .Replace("\"", "")
+                .Replace("'", "")
+                .Replace("(", "")
+                .Replace(")", "")
+                .Replace("\n", "")
+                .Replace("\r", "")
+                .Replace("\t", "")
+                .Replace(";", "")
+                .Trim();
+    }
+
 
 
     void StartExercises()
@@ -229,9 +224,14 @@ public class WolfDialogue : MonoBehaviour
         string correctAnswer = correctExerciseAnswers[currentExercise].Trim().ToLower();
         string userAnswer = userInput.Trim().ToLower();
 
-        if (userAnswer == correctAnswer)
+        // Normalize more forgiving
+        correctAnswer = Normalize(correctAnswer);
+        userAnswer = Normalize(userAnswer);
+
+        bool isCorrect = userAnswer == correctAnswer;
+
+        if (isCorrect)
         {
-            feedbackText.text = "Correct!";
             if (outputText != null)
             {
                 if (currentExercise == 0) outputText.text = "Output:\n> c";
@@ -240,12 +240,13 @@ public class WolfDialogue : MonoBehaviour
             }
 
             currentExercise++;
-            Invoke(nameof(StartExercises), 1.8f);
+            Invoke(nameof(StartExercises), 1.2f);
         }
         else
         {
-            feedbackText.text = "Try again.";
             if (outputText != null) outputText.text = "";
         }
+
     }
 }
+
