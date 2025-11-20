@@ -42,8 +42,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Screens/ListLevelP3Tutorial.unity
     guid: 6dfed5acae0cead4495a2216b220290e
   - enabled: 1
+    path: Assets/Scenes/Screens/Booleans and Operators Explained.unity
+    guid: 0b3bed414a9084d239814b1552bf8fcf
+  - enabled: 1
     path: Assets/Scenes/Screens/ListLevelPart2.unity
     guid: 03cea862452b9e141ae2f90e993a7831
+  - enabled: 1
+    path: Assets/Scenes/Screens/Final Level Intro.unity
+    guid: 6e65aab2739b746a1b812e0240d1d6fe
+  - enabled: 1
+    path: Assets/Scenes/Screens/Sets explained.unity
+    guid: 71a3d0cee09f14da3ba16d76126523fa
   - enabled: 1
     path: Assets/Scenes/Screens/ListLevelTutorial.unity
     guid: 5bc9ffa7dd24cf5479f7225a290112ed
@@ -89,5 +98,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Screens/Variable Names.unity
     guid: 8e8729ca6c0bed64283b03f6f516b65f
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
